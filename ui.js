@@ -49,3 +49,40 @@ carrusel.style.scrollBehavior = matchMedia('(prefers-reduced-motion: reduce)').m
 // Menú móvil: se cierra al elegir una sección
 const menu = document.getElementById('menu');
 menu?.addEventListener('click', e => { if (e.target.closest('a') && menu.matches(':popover-open')) menu.hidePopover(); });
+
+const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Fichas: un toque alterna foto e instrumento
+const fichas = [...document.querySelectorAll('.ficha')];
+const mostrar = (ficha, ver) => {
+  ficha.classList.toggle('ver', ver);
+  ficha.querySelector('.girar').setAttribute('aria-pressed', ver);
+};
+let demo = [];
+const cancelarDemo = () => demo.splice(0).forEach(clearTimeout);
+fichas.forEach(ficha => {
+  const boton = ficha.querySelector('.girar');
+  boton.hidden = false;
+  boton.addEventListener('click', () => {
+    cancelarDemo();
+    const ver = !ficha.classList.contains('ver');
+    fichas.forEach(f => mostrar(f, f === ficha && ver));
+  });
+  ficha.addEventListener('pointerenter', () => { cancelarDemo(); fichas.forEach(f => f !== ficha && mostrar(f, false)); });
+});
+
+if ('IntersectionObserver' in window) {
+  // Muestra una sola vez, en ola, que las fichas esconden un instrumento
+  const lista = document.querySelector('.integrantes');
+  if (lista && !quieto) new IntersectionObserver(([e], io) => {
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    fichas.forEach((f, i) => demo.push(
+      setTimeout(mostrar, 500 + i * 400, f, true),
+      setTimeout(mostrar, 2100 + i * 400, f, false)));
+  }, { threshold: .7 }).observe(lista);
+
+  // Pausa lo que se mueve en bucle cuando no se ve
+  const vigia = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('quieto', !e.isIntersecting)));
+  document.querySelectorAll('.portada, .cinta, .tira').forEach(el => vigia.observe(el));
+}

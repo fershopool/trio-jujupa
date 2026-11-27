@@ -12,6 +12,18 @@
     arbol.classList.remove('dibuja');
     void arbol.offsetWidth; // fuerza reflujo para reiniciar los keyframes
     arbol.classList.add('dibuja');
+    seguir();
+  };
+  // Mientras corre, el botón permite saltar al resultado
+  const boton = arbol.querySelector('.repetir');
+  let turno = 0;
+  const enCurso = () => arbol.getAnimations({ subtree: true });
+  const seguir = () => {
+    const este = ++turno;
+    boton.textContent = 'Saltar animación';
+    Promise.allSettled(enCurso().map(x => x.finished)).then(() => {
+      if (este === turno) boton.textContent = 'Repetir animación';
+    });
   };
 
   const io = new IntersectionObserver(([e]) => {
@@ -21,5 +33,8 @@
   }, { threshold: .35 });
   io.observe(arbol);
 
-  arbol.querySelector('.repetir')?.addEventListener('click', reproducir);
+  boton.addEventListener('click', () => {
+    if (boton.textContent.startsWith('Saltar')) enCurso().forEach(x => x.finish());
+    else { io.disconnect(); reproducir(); }
+  });
 })();

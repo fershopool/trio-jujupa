@@ -107,27 +107,25 @@ h3 { font: 900 1.7rem/1.05 var(--titulo); text-transform: uppercase; margin-bott
 .rasgos b { display: block; font: 900 1.3rem/1.1 var(--titulo); text-transform: uppercase; color: var(--ocre); margin-bottom: .4rem; }
 .fuente { margin-top: 3rem; font-size: .85rem; opacity: .75; }
 
-/* Ventana de la ficha: un rombo huasteco abre paso de la foto al instrumento, en ola de izquierda a derecha */
-.ficha { --d: 0s; cursor: pointer; transition: translate .45s cubic-bezier(.2,1.5,.4,1), box-shadow .45s; }
-.ficha:nth-child(2) { --d: .35s; } .ficha:nth-child(3) { --d: .7s; }
-.ficha:is(:hover, :focus) { translate: 0 -10px; box-shadow: 0 18px 30px #0007; }
-.arte { position: relative; margin: .75rem 5cqi; aspect-ratio: 2 / 3; overflow: hidden; isolation: isolate; }
-.arte > *, .arte::before { position: absolute; inset: 0; width: 100%; height: 100%; }
-.arte img { object-fit: cover; object-position: 50% 20%; animation: acerca 10s ease-in-out var(--d) infinite both; }
-/* franja de color que va por delante del rombo */
-.arte::before { content: ""; z-index: 1; background: var(--t); clip-path: var(--cerrado); animation: rombo 10s cubic-bezier(.75,0,.2,1) var(--d) infinite both; }
-.arte { --cerrado: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); --abierto: polygon(50% -60%, 160% 50%, 50% 160%, -60% 50%); }
-.ficha .arte .sombra { z-index: 2; margin: 0; width: 100%; height: 100%; aspect-ratio: auto; padding: 4% 0; background: var(--c); clip-path: var(--cerrado); animation: rombo 10s cubic-bezier(.75,0,.2,1) calc(var(--d) + .14s) infinite both; }
-.sombra use { transform-box: view-box; transform-origin: 50% 12%; animation: rasguea 10s ease-in-out var(--d) infinite both; }
-@keyframes rombo { 0%, 50% { clip-path: var(--cerrado); } 59%, 88% { clip-path: var(--abierto); } 97%, 100% { clip-path: var(--cerrado); } }
-@keyframes acerca { 0% { scale: 1.02; } 55% { scale: 1.14; } 70%, 88% { scale: 1.24; } 100% { scale: 1.02; } }
-/* el instrumento entra girando y se balancea como recién rasgueado */
-@keyframes rasguea { 0%, 51% { transform: rotate(-24deg) scale(.55); } 60% { transform: rotate(9deg) scale(1.06); } 65% { transform: rotate(-6deg) scale(.98); } 70% { transform: rotate(3.5deg) scale(1); } 75% { transform: rotate(-2deg); } 80% { transform: rotate(1deg); } 85%, 90% { transform: none; } 100% { transform: rotate(-24deg) scale(.55); } }
-/* al tocar o pasar el cursor, el instrumento se queda */
-.ficha:is(:hover, :focus, :active) .arte::before, .ficha:is(:hover, :focus, :active) .arte .sombra { animation: none; clip-path: var(--abierto); transition: clip-path .55s cubic-bezier(.75,0,.2,1); }
-.ficha:is(:hover, :focus, :active) .arte .sombra { transition-delay: .1s; }
-.ficha:is(:hover, :focus, :active) .sombra use { animation: toca .9s ease-out; }
-@keyframes toca { 0% { transform: rotate(-18deg) scale(.7); } 35% { transform: rotate(8deg) scale(1.08); } 55% { transform: rotate(-5deg); } 75% { transform: rotate(2.5deg); } 100% { transform: none; } }
+/* Ficha: la foto manda; el instrumento aparece cuando la persona lo pide */
+.ficha { position: relative; transition: translate .35s cubic-bezier(.2,1.4,.4,1), box-shadow .35s; }
+.arte { position: relative; margin: .75rem 5cqi; aspect-ratio: 2 / 3; overflow: hidden; isolation: isolate; --cerrado: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); --abierto: polygon(50% -60%, 160% 50%, 50% 160%, -60% 50%); }
+.arte > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+.arte img { object-fit: cover; object-position: 50% 20%; transition: scale .8s cubic-bezier(.2,.7,.2,1); }
+.ficha .arte .sombra { z-index: 1; margin: 0; width: 100%; height: 100%; aspect-ratio: auto; padding: 4% 0; background: var(--c); clip-path: var(--cerrado); transition: clip-path .55s cubic-bezier(.7,0,.2,1); }
+.sombra use { transform-box: view-box; transform-origin: 50% 12%; transform: rotate(-14deg) scale(.8); transition: transform .8s cubic-bezier(.25,1.9,.4,1) .1s; }
+.girar { position: absolute; inset: 0; z-index: 5; width: 100%; background: none; border: 0; cursor: pointer; touch-action: manipulation; }
+.girar:focus-visible { outline: 3px solid var(--manta); outline-offset: 4px; }
+.ficha:has(.girar:active) { scale: .98; }
+.ficha.ver .arte .sombra { clip-path: var(--abierto); }
+.ficha.ver .sombra use { transform: none; }
+.ficha.ver .arte img { scale: 1.12; }
+@media (hover: hover) {
+  .ficha:hover { translate: 0 -8px; box-shadow: 0 18px 30px #0007; }
+  .ficha:hover .arte .sombra { clip-path: var(--abierto); }
+  .ficha:hover .sombra use { transform: none; }
+  .ficha:hover .arte img { scale: 1.12; }
+}
 .pista { margin-top: 1rem; text-align: center; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; opacity: .65; }
 
 /* Galería en movimiento */
@@ -347,3 +345,14 @@ h1 { filter: drop-shadow(.2rem .2rem 0 var(--teal)) drop-shadow(0 6px 22px #0009
 .spotify:hover { border-color: #1db954; background: #1db95426; }
 .ytmusic:hover { border-color: #f33; background: #f0000026; }
 .otros { margin-top: 1rem; font-size: .9rem; opacity: .8; }
+
+/* ===== Experiencia de las animaciones ===== */
+.quieto, .quieto *, .quieto::before, .quieto::after { animation-play-state: paused !important; } /* fuera de pantalla no gastan batería */
+.cinta:hover div { animation-play-state: paused; }
+/* en pantallas táctiles la galería se desliza con el dedo en vez de moverse sola */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .tira { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .tira > div { animation: none; }
+  .tira span { display: none; }
+  .tira img { scroll-snap-align: center; }
+}
