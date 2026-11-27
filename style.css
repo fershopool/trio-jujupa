@@ -133,7 +133,7 @@ h3 { font: 900 1.7rem/1.05 var(--titulo); text-transform: uppercase; margin-bott
 .tira > div, .tira span { display: flex; gap: 4px; width: max-content; }
 .tira > div { padding-block: 4px; animation: corre-tira 60s linear infinite; }
 .tira img { height: clamp(11rem, 26vw, 19rem); width: auto; }
-.tira:hover > div, .tira:focus > div { animation-play-state: paused; }
+.tira:hover > div, .tira:focus > div, .tira:active > div { animation-play-state: paused; }
 @keyframes corre-tira { to { translate: calc(-50% - 2px) 0; } }
 
 /* Disco y repertorio */
@@ -332,8 +332,8 @@ h1 { filter: drop-shadow(.2rem .2rem 0 var(--teal)) drop-shadow(0 6px 22px #0009
 /* ===== Experiencia de las animaciones ===== */
 .quieto, .quieto *, .quieto::before, .quieto::after { animation-play-state: paused !important; } /* fuera de pantalla no gastan batería */
 .cinta:hover div { animation-play-state: paused; }
-/* en pantallas táctiles la galería se desliza con el dedo en vez de moverse sola */
-@media (hover: none), (prefers-reduced-motion: reduce) {
+/* con menos movimiento la galería no corre sola: se desliza a mano */
+@media (prefers-reduced-motion: reduce) {
   .tira { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .tira > div { animation: none; }
   .tira span { display: none; }
