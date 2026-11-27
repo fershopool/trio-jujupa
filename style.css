@@ -267,7 +267,6 @@ footer::before { content: ""; position: absolute; inset: 0 0 auto; height: 16px;
 
 /* ===== Identidad de la carpeta: azules, textura de la flor y logo oficial ===== */
 .portada { position: relative; isolation: isolate; }
-.portada::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(#0b222de0, #0b222db8 45%, var(--noche)), url(img/portada.webp) center 40% / cover; }
 h1 { filter: drop-shadow(.2rem .2rem 0 var(--teal)) drop-shadow(0 6px 22px #0009); }
 .lema { text-shadow: 0 1px 8px #000b; }
 #trio, #repertorio { background: #103444; }
@@ -322,3 +321,29 @@ h1 { filter: drop-shadow(.2rem .2rem 0 var(--teal)) drop-shadow(0 6px 22px #0009
   .nombre-barra { display: none; }
   .contacto { padding: .5rem .9rem .5rem .75rem; font-size: 1rem; }
 }
+
+/* Portada: la foto va aparte, completa, para no tapar a nadie */
+.portada { background: radial-gradient(80% 60% at 20% 0%, #1a587355, transparent), var(--noche); }
+.portada::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url(img/textura.webp) 0 0 / 300px; opacity: .05; }
+.foto-portada { width: min(100%, 60rem); margin-top: 3rem; }
+.foto-portada img { width: 100%; height: auto; border: 1px solid #ffffff40; box-shadow: 12px 12px 0 var(--teal), 0 24px 50px #0007; }
+@media (min-width: 62rem) {
+  .portada { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: repeat(5, auto); align-content: center; justify-items: center; column-gap: 3.5rem; min-height: calc(100svh - 5rem); padding: 2.5rem 4vw 3.5rem; }
+  .portada > :not(.foto-portada) { grid-column: 1; }
+  .foto-portada { grid-column: 2; grid-row: 1 / -1; align-self: center; width: 100%; margin: 0; }
+  .portada .maguey { width: clamp(10rem, 15vw, 15rem); }
+  .portada h1 { width: 100%; }
+  .portada .sobre { margin-top: 1.25rem; letter-spacing: .2em; }
+  .portada .lema { font-size: 1.1rem; }
+}
+
+/* Plataformas de música */
+.plataformas { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+.plataforma { display: inline-flex; align-items: center; gap: .65rem; padding: .6rem 1.3rem .6rem .8rem; border-radius: 99px; border: 1px solid #ffffff4d; font: 700 1.15rem var(--titulo); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; transition: translate .25s, background-color .25s, border-color .25s; }
+.plataforma svg { width: 1.7rem; height: 1.7rem; fill: none; stroke: #fff; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.spotify svg circle { fill: #1db954; stroke: none; } .spotify svg path { stroke: #08150d; stroke-width: 2; }
+.ytmusic svg circle:first-child { fill: #f00; stroke: none; } .ytmusic svg path { fill: #fff; stroke: none; }
+.plataforma:hover, .plataforma:focus-visible { translate: 0 -3px; }
+.spotify:hover { border-color: #1db954; background: #1db95426; }
+.ytmusic:hover { border-color: #f33; background: #f0000026; }
+.otros { margin-top: 1rem; font-size: .9rem; opacity: .8; }
