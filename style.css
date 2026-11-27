@@ -17,7 +17,7 @@ h2::after { content: ""; display: block; width: 8rem; height: 16px; margin-top: 
 .saltar:focus { left: 1rem; top: 1rem; z-index: 9; background: var(--manta); color: var(--noche); padding: .5rem 1rem; }
 
 .barra { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .6rem max(1rem, 5vw); background: var(--noche); border-bottom: 1px solid #ece2cc33; }
-.marca img, footer img { border-radius: 50%; }
+.marca img { border-radius: 50%; }
 nav { display: flex; align-items: center; gap: 1.5rem; font-weight: 500; }
 nav a:not(.boton) { text-decoration: none; }
 nav a:not(.boton):hover { color: var(--ocre); }
@@ -101,7 +101,6 @@ h3 { font: 900 1.7rem/1.05 var(--titulo); text-transform: uppercase; margin-bott
 .raices article { padding: 1.5rem; border: 1px solid #ece2cc55; border-top: 6px solid var(--grana); }
 .raices article:nth-child(2) { border-top-color: var(--manta); }
 .raices article:nth-child(3) { border-top-color: var(--ocre); }
-.sello { margin-top: 4rem; font-size: 2.2rem; }
 .rasgos { margin-top: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
 .rasgos li { padding-top: 1rem; border-top: 1px solid #ece2cc33; }
 .rasgos b { display: block; font: 900 1.3rem/1.1 var(--titulo); text-transform: uppercase; color: var(--ocre); margin-bottom: .4rem; }
@@ -169,8 +168,6 @@ figcaption small { font: 400 .95rem Figtree, sans-serif; text-transform: none; m
 .contrata .boton:not(.hueco) { background: var(--noche); border-color: var(--noche); }
 .contrata .boton:hover { background: var(--manta); border-color: var(--manta); color: var(--noche); }
 
-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding: 2rem max(1rem, 5vw); }
-footer img { display: inline-block; vertical-align: middle; margin-right: .75rem; }
 
 @media (max-width: 40rem) {
   .anio { grid-template-columns: 1fr; }
@@ -187,3 +184,37 @@ footer img { display: inline-block; vertical-align: middle; margin-right: .75rem
 /* el menú no se parte en dos líneas en pantallas medianas */
 nav a { white-space: nowrap; }
 @media (max-width: 48rem) { nav a:not(.boton) { display: none; } }
+
+
+/* Pie: alianza Trío Jujupa × Tlatolli, simétrica con los sellos junto al centro */
+footer { position: relative; padding: 3.5rem max(.75rem, 5vw) 2rem; text-align: center; }
+footer::before { content: ""; position: absolute; inset: 0 0 auto; height: 16px; background: var(--greca); rotate: 180deg; }
+.alianza { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; max-width: 56rem; margin: 0 auto; border: 1px solid #ece2cc40; outline: 1px solid #ece2cc1f; outline-offset: 6px; }
+.socio { display: flex; align-items: center; justify-content: flex-start; gap: 1.25rem; min-width: 0; padding: 1.5rem 1rem 1.5rem 1.5rem; text-decoration: none; transition: background-color .25s; }
+.socio.jujupa { flex-direction: row-reverse; text-align: right; }
+.socio:hover, .socio:focus-visible { background: #ece2cc0f; }
+.emblema { flex: none; display: grid; place-items: center; width: 4.75rem; aspect-ratio: 1; border-radius: 50%; border: 1px solid #ece2cc73; outline: 1px solid transparent; outline-offset: 4px; overflow: hidden; transition: outline-color .25s; }
+.emblema img { width: 76%; height: auto; }
+.jujupa .emblema img { width: 100%; }
+.socio:hover .emblema { outline-color: var(--ocre); }
+.texto { display: grid; gap: .55rem; justify-items: start; min-width: 0; }
+.jujupa .texto { justify-items: end; }
+.texto small { font-size: .68rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--ocre); }
+.texto b { font: 900 1.75rem/21px var(--titulo); text-transform: uppercase; letter-spacing: .08em; }
+.palabra { width: 8.25rem; height: auto; }
+.cruz { position: relative; display: grid; place-items: center; width: 4rem; }
+.cruz::before { content: ""; position: absolute; inset: 0 auto; width: 1px; background: #ece2cc40; }
+.cruz i { position: relative; display: grid; place-items: center; width: 2.4rem; aspect-ratio: 1; background: var(--grana); outline: 5px solid var(--noche); rotate: 45deg; font: 700 1.9rem/1 var(--titulo); font-style: normal; }
+.cruz i { color: transparent; }
+.cruz i::after { content: "×"; position: absolute; color: var(--manta); rotate: -45deg; }
+.pie-nota { margin-top: 2rem; font-size: .75rem; letter-spacing: .18em; text-transform: uppercase; opacity: .6; }
+@media (max-width: 44rem) {
+  .socio, .socio.jujupa { flex-direction: column; justify-content: flex-start; gap: .9rem; padding: 1.25rem .35rem; text-align: center; }
+  .texto, .jujupa .texto { justify-items: center; }
+  .texto small { font-size: .56rem; letter-spacing: .08em; min-height: 2.8em; }
+  .texto b { font-size: clamp(.95rem, 4.6vw, 1.4rem); letter-spacing: .03em; }
+  .palabra { width: min(100%, 6.25rem); }
+  .emblema { width: 4rem; }
+  .cruz { width: 1.75rem; }
+  .cruz i { width: 1.4rem; font-size: 1.2rem; outline-width: 3px; }
+}
