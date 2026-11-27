@@ -183,3 +183,7 @@ footer img { display: inline-block; vertical-align: middle; margin-right: .75rem
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* el menú no se parte en dos líneas en pantallas medianas */
+nav a { white-space: nowrap; }
+@media (max-width: 48rem) { nav a:not(.boton) { display: none; } }
