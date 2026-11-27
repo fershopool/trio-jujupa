@@ -36,15 +36,34 @@ document.querySelectorAll('.pestanas').forEach((grupo, g) => {
   abrir(0);
 });
 
-const carrusel = document.querySelector('.videos');
-document.querySelectorAll('.flecha').forEach(f => {
-  f.hidden = false;
-  f.addEventListener('click', () => {
-    const paso = carrusel.querySelector('figure').offsetWidth + parseFloat(getComputedStyle(carrusel).columnGap);
-    carrusel.scrollBy({ left: paso * f.dataset.dir });
+// Sala de video: el reproductor se carga solo al hacer clic; sin JS los enlaces abren YouTube.
+const cine = document.querySelector('.cine');
+if (cine) {
+  const escenario = cine.querySelector('.escenario');
+  const cartel = cine.querySelector('.cartel');
+  const enlaces = [...cine.querySelectorAll('.lista a')];
+  const reproducir = a => {
+    const { id, titulo, nota } = a.dataset;
+    enlaces.forEach(e => e.toggleAttribute('aria-current', e === a));
+    cartel.querySelector('small').textContent = nota;
+    cartel.querySelector('strong').textContent = titulo;
+    const f = document.createElement('iframe');
+    f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+    f.title = titulo;
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.referrerPolicy = 'strict-origin-when-cross-origin';
+    escenario.replaceChildren(f);
+    cine.classList.add('sonando');
+    // en pantallas angostas la lista queda debajo: vuelve a mostrar el escenario
+    if (escenario.getBoundingClientRect().top < 0) escenario.scrollIntoView({ block: 'start' });
+  };
+  cine.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    reproducir(enlaces.find(x => x.dataset.id === a.dataset.id));
   });
-});
-carrusel.style.scrollBehavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+}
 
 // Menú móvil: se cierra al elegir una sección
 const menu = document.getElementById('menu');
