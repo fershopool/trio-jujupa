@@ -45,3 +45,7 @@ document.querySelectorAll('.flecha').forEach(f => {
   });
 });
 carrusel.style.scrollBehavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+// Menú móvil: se cierra al elegir una sección
+const menu = document.getElementById('menu');
+menu?.addEventListener('click', e => { if (e.target.closest('a') && menu.matches(':popover-open')) menu.hidePopover(); });
