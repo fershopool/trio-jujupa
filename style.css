@@ -379,3 +379,9 @@ h1 { filter: drop-shadow(.2rem .2rem 0 var(--teal)) drop-shadow(0 6px 22px #0009
 }
 .youtube svg rect { fill: #f00; stroke: none; } .youtube svg path { fill: #fff; stroke: none; }
 .youtube:hover { border-color: #f33; background: #f0000026; }
+
+/* datos para cotizar */
+.cotiza { max-width: 42rem; margin: 1.5rem auto 0; text-align: left; padding: 1.25rem 1.5rem; border: 2px solid currentColor; }
+.cotiza h3 { margin: 0 0 .75rem; }
+.cotiza ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: .5rem 1.5rem; margin: 0; padding: 0; list-style: none; }
+.cotiza li::before { content: "◆ "; color: var(--ocre); }
